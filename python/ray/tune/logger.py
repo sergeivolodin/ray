@@ -234,6 +234,12 @@ class TBXLogger(Logger):
                         full_attr, value, global_step=step, fps=20)
                     continue
 
+                # Must be an image
+                if type(value) == np.ndarray and value.ndim == 3:
+                    self._file_writer.add_image(
+                        full_attr, value, global_step=step)
+                    continue
+
                 try:
                     self._file_writer.add_histogram(
                         full_attr, value, global_step=step)
