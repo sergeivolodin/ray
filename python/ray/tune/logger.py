@@ -236,9 +236,13 @@ class TBXLogger(Logger):
 
                 # Must be an image
                 if type(value) == np.ndarray and value.ndim == 3:
-                    self._file_writer.add_image(
-                        full_attr, value, global_step=step)
-                    continue
+                    try:
+                        self._file_writer.add_image(
+                            full_attr, value, global_step=step)
+                        continue
+                    except TypeError as e:
+                        print("Can't add image", full_attr, e)
+                        pass
 
                 try:
                     self._file_writer.add_histogram(
